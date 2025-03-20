@@ -14,7 +14,12 @@ namespace Library.eCommerce.Services
     {
         private ProductServiceProxy()
         {
-            Products = new List<Product?>();
+            Products = new List<Product?>
+            {
+                new Product{Id = 1, Name="Product 1"},
+                new Product{Id = 1, Name="Product 2"},
+                new Product{Id = 1, Name="Product 3"}
+            };
         }
 
         private int LastKey
@@ -76,7 +81,7 @@ namespace Library.eCommerce.Services
 
         public void ChangeItemQuantity(int id, int amount)
         {
-            Product? product = Products.FirstOrDefault(p => p?.Id == id);
+            Product? product = GetById(id);
             if (product != null)
             {
                 product.Quantity -= amount;
@@ -85,6 +90,11 @@ namespace Library.eCommerce.Services
                     Products.Remove(product);
                 }
             }
+        }
+
+        public Product? GetById(int id)
+        {
+            return Products.FirstOrDefault(p => p.Id == id);
         }
 
         //Two functions that both are for the cart's update but behave differently depending on if you're adding or subtracting from the cart
