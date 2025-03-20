@@ -14,11 +14,11 @@ namespace Library.eCommerce.Services
     {
         private ProductServiceProxy()
         {
-            Products = new List<Product?>
+            Products = new List<Item?>
             {
-                new Product{Id = 1, Name="Product 1"},
-                new Product{Id = 1, Name="Product 2"},
-                new Product{Id = 1, Name="Product 3"}
+                new Item{Product = new Product{Id = 1, Name="Product 1"}, Id=1, Quantity = 1 },
+                new Item{Product = new Product{Id = 1, Name="Product 2"}, Id=2, Quantity = 2 },
+                new Item{Product = new Product{Id = 1, Name="Product 3"}, Id=3, Quantity = 3 },
             };
         }
 
@@ -53,86 +53,37 @@ namespace Library.eCommerce.Services
             }
         }
 
-        public List<Product?> Products { get; private set; }
+        public List<Item?> Products { get; private set; }
 
 
-        public Product AddorUpdate(Product product)
+        public Item AddorUpdate(Item item)
         {
-            if (product.Id == 0)
+            if (item.Id == 0)
             {
-                product.Id = LastKey + 1;
-                Products.Add(product);
+                item.Id = LastKey + 1;
+                item.Product.Id = item.Id;
+                Products.Add(item);
             }
-            return product;
+            return item;
         }
 
-        public Product? Delete(int Id)
+        public Item? Delete(int Id)
         {
             if (Id == 0)
             {
                 return null;
             }
 
-            Product? product = Products.FirstOrDefault(p => p.Id == Id);
+            Item? product = Products.FirstOrDefault(p => p.Id == Id);
             Products.Remove(product);
 
             return product;
         }
 
-        public void ChangeItemQuantity(int id, int amount)
-        {
-            Product? product = GetById(id);
-            if (product != null)
-            {
-                product.Quantity -= amount;
-                if (product.Quantity == 0)
-                {
-                    Products.Remove(product);
-                }
-            }
-        }
 
-        public Product? GetById(int id)
+        public Item? GetById(int id)
         {
             return Products.FirstOrDefault(p => p.Id == id);
-        }
-
-        //Two functions that both are for the cart's update but behave differently depending on if you're adding or subtracting from the cart
-        public void AddUpdateCart(int id, int amount, Product product)
-        {
-            Product? prod = Products.FirstOrDefault(p => p?.Id == id);
-            if (prod == null)
-            {
-                Products.Add(new Product
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Price = product.Price,
-                    Quantity = amount
-                });
-            }
-            else
-            {
-                prod.Quantity += amount;
-            }
-
-        }
-
-        public bool RemoveUpdateCart(int id, int amount)
-        {
-            Product? prod = Products.FirstOrDefault(p => p?.Id == id);
-
-            if (amount < prod.Quantity)
-            {
-                prod.Quantity -= amount;
-                return true;
-            }
-            else if (amount == prod.Quantity)
-            {
-                Current.Delete(prod.Id);
-                return true;
-            }
-            else return false;
         }
     }
 }

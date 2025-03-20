@@ -29,8 +29,7 @@ namespace Library.eCommerce.Models
                 return null;
             }
 
-            Product? product = Items.FirstOrDefault(p => p.Id == Id);
-            ProductServiceProxy.Current.ChangeItemQuantity(product.Id, -product.Quantity);
+            Item? product = Items.Product?.FirstOrDefault(p => p.Id == Id);
             ProductServiceProxy.Current.AddorUpdate(product);
             Items.Remove(product);
 

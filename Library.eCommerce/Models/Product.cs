@@ -13,14 +13,12 @@ namespace Library.eCommerce.Models
         public int Id { get; set; }
         public string? Name { get; set; }
         public decimal Price { get; set; }
-        public int Quantity { get; set; }
-
 
         public string? Display
         {
             get
             {
-                return $"{Id}. {Name} ${Price} Amount: {Quantity}";
+                return $"{Id}. {Name} ${Price}";
             }
         }
 
