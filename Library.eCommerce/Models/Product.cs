@@ -18,7 +18,7 @@ namespace Library.eCommerce.Models
         {
             get
             {
-                return $"{Id}. {Name} ${Price}";
+                return $"{Id}. {Name}";
             }
         }
 

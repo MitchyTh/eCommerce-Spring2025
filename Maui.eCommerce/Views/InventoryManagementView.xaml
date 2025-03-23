@@ -39,6 +39,10 @@
             Text="Edit"
             Clicked="EditClicked"
             />
+        <Button 
+            Text="Delete"
+            Clicked="DeleteClicked"
+            />
         <Button
             Text="Go Back"
             Clicked="CancelClicked"

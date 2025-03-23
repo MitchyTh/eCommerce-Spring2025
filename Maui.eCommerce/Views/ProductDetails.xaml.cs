@@ -4,6 +4,7 @@ using Library.eCommerce.Models;
 
 namespace Maui.eCommerce.Views;
 
+[QueryProperty(nameof(ProductId), "productId")]
 public partial class ProductDetails : ContentPage
 {
 	public ProductDetails()

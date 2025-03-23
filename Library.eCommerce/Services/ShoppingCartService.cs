@@ -9,8 +9,9 @@ namespace Library.eCommerce.Services
 {
     public class ShoppingCartService
     {
-        private List<Product> items;
-        public List<Product> cartItems
+        private ProductServiceProxy _prodsvc;
+        private List<Item> items;
+        public List<Item> cartItems
         {
             get
             {
@@ -30,7 +31,7 @@ namespace Library.eCommerce.Services
         }
         private static ShoppingCartService? instance;
         private ShoppingCartService() {
-            items = new List<Product>();
+            items = new List<Item>();
         }
     }
 }
