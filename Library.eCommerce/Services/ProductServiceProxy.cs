@@ -58,6 +58,11 @@ namespace Library.eCommerce.Services
 
         public Item AddorUpdate(Item item)
         {
+            if(item == null)
+            {
+                return null;
+            }
+
             if (item.Id == 0)
             {
                 item.Id = LastKey + 1;

@@ -16,6 +16,7 @@ namespace Maui.eCommerce.ViewModels
         public Item? SelectedProduct { get; set; }
         public string? Query { get; set; }
         private ProductServiceProxy _svc = ProductServiceProxy.Current;
+        private ShoppingCartService _cartSvc = ShoppingCartService.Current;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

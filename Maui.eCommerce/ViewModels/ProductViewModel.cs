@@ -84,5 +84,15 @@ namespace Maui.eCommerce.ViewModels
                 cachedModel = new Item(model);
             }
         }
+
+        public void UpdateCart()
+        {
+            var cartItem = _cartSvc.cartItems.FirstOrDefault(p => p.Id == Model?.Id);
+            if (cartItem != null)
+            {
+                cartItem.Product.Name = Model.Product.Name;
+                cartItem.Product.Price = Model.Product.Price;
+            }
+        }
     }
 }
