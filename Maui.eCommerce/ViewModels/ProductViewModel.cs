@@ -11,6 +11,7 @@ namespace Maui.eCommerce.ViewModels
 {
     class ProductViewModel
     {
+        private ShoppingCartService _cartSvc = ShoppingCartService.Current;
         private Item? cachedModel {  get; set; }
         public string? Name
         {
@@ -39,6 +40,21 @@ namespace Maui.eCommerce.ViewModels
                 if(Model != null && value != null && Model.Quantity != value)
                 {
                     Model.Quantity = value;
+                }
+            }
+        }
+
+        public decimal? Price
+        {
+            get
+            {
+                return Model?.Product.Price;
+            }
+            set
+            {
+                if (Model != null && value != null && Model.Product.Price != value)
+                {
+                    Model.Product.Price = value;
                 }
             }
         }

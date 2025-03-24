@@ -12,7 +12,14 @@ namespace Library.eCommerce.Models
         public Product Product { get; set; }
         public int? Quantity { get; set; }
 
-        public double? TotalPrice { get; set; }
+        public decimal? TotalPrice
+        {
+            get
+            {
+                return (Quantity * Product.Price);
+            }
+            set { }
+        }
 
         public override string ToString()
         {

@@ -86,5 +86,15 @@ namespace Library.eCommerce.Services
 
             return itemToReturn;
         }
+
+        public decimal? GetFinalBill()
+        {
+            decimal? finalBill = 0;
+            foreach (var item in cartItems)
+            {
+                finalBill += item.TotalPrice;
+            }
+            return finalBill;
+        }
     }
 }

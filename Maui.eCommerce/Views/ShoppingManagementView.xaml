@@ -30,13 +30,15 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
                                 <Label Grid.Column="0" Text="{Binding Id}"/>
                                 <Label Grid.Column="1" Text="{Binding Product.Name}"/>
                                 <Label Grid.Column="2" Text="x"/>
                                 <Label Grid.Column="3" Text="{Binding Quantity}"/>
-                                <Button Grid.Column="4" Text="+"/>
-                            </Grid>
+                                <Label Grid.Column="4" Text="Price:"/>
+                                <Label Grid.Column="5" Text="{Binding Product.Price}"/>
+                                </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -65,13 +67,15 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
+                                    <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Column="0" Text="{Binding Id}"/>
                                 <Label Grid.Column="1" Text="{Binding Product.Name}"/>
                                 <Label Grid.Column="2" Text="x"/>
                                 <Label Grid.Column="3" Text="{Binding Quantity}"/>
-                                <Button Grid.Column="4" Text="+"/>
-                            </Grid>
+                                <Label Grid.Column="4" Text="Price:"/>
+                                <Label Grid.Column="5" Text="{Binding Product.Price}"/>
+                                </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

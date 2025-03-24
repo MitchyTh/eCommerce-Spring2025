@@ -40,6 +40,14 @@ namespace Maui.eCommerce.ViewModels
             }
         }
 
+        public decimal? FinalBill
+        {
+            get
+            {
+                return _cartSvc.GetFinalBill();
+            }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

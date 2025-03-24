@@ -22,11 +22,12 @@
                             <Label Grid.Column="1" Text="{Binding Product.Name}"/>
                             <Label Grid.Column="2" Text="x"/>
                             <Label Grid.Column="3" Text="{Binding Quantity}"/>
-                            <Label Grid.Column="4" Text="Total Price"/>
+                            <Label Grid.Column="4" Text="{Binding TotalPrice}"/>
                         </Grid>
                 </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
+        <Label Text="{Binding FinalBill, StringFormat='Total: {0:C}'}"/>
     </VerticalStackLayout>
 </ContentPage>
