@@ -18,13 +18,20 @@ namespace Library.eCommerce.Models
         {
             get
             {
-                return $"{Id}. {Name}";
+                return $"{Id}. {Name} ${Price}";
             }
         }
 
         public Product()
         {
             Name = string.Empty;
+        }
+
+        public Product(Product p)
+        {
+            Name = p.Name;
+            Id = p.Id;
+            Price = p.Price;
         }
 
         public override string ToString()
