@@ -31,6 +31,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
+                                    <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                 <Label Grid.Column="0" Text="{Binding Id}"/>
                                 <Label Grid.Column="1" Text="{Binding Product.Name}"/>
@@ -38,6 +39,7 @@
                                 <Label Grid.Column="3" Text="{Binding Quantity}"/>
                                 <Label Grid.Column="4" Text="Price:"/>
                                 <Label Grid.Column="5" Text="{Binding Product.Price}"/>
+                                    <Button Grid.Column="6" Text="+" Command="{Binding AddCommand}" Clicked="InLineAddClicked"/>
                                 </Grid>
                         </ViewCell>
                     </DataTemplate>

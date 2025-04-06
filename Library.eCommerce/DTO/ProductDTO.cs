@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Library.eCommerce.Models;
 
-
-namespace Library.eCommerce.Models
+namespace Library.eCommerce.DTO
 {
-    public class Product
+    public class ProductDTO
     {
-
         public int Id { get; set; }
         public string? Name { get; set; }
         public decimal? Price { get; set; }
@@ -22,24 +21,16 @@ namespace Library.eCommerce.Models
             }
         }
 
-        public string LegacyProperty1 { get; set; }
-        public string LegacyProperty2 { get; set; }
-        public string LegacyProperty3 { get; set; }
-        public string LegacyProperty4 { get; set; }
-        public string LegacyProperty5 { get; set; }
-        public string LegacyProperty6 { get; set; }
-
-        public Product()
+        public ProductDTO()
         {
             Name = string.Empty;
         }
 
-        public Product(Product p)
+        public ProductDTO(ProductDTO p)
         {
             Name = p.Name;
             Id = p.Id;
             Price = p.Price;
-            LegacyProperty1 = string.Empty;
         }
 
         public override string ToString()
