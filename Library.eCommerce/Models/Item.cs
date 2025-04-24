@@ -14,7 +14,6 @@ namespace Library.eCommerce.Models
         public int Id { get; set; }
         public ProductDTO Product { get; set; }
         public int? Quantity { get; set; }
-        public ICommand? AddCommand { get; set; }
 
         public decimal? TotalPrice
         {
@@ -41,7 +40,6 @@ namespace Library.eCommerce.Models
             Product = new ProductDTO();
             Quantity = 0;
 
-            AddCommand = new Command(DoAdd);
         }
 
         public Item(Item i)
@@ -50,12 +48,6 @@ namespace Library.eCommerce.Models
             Quantity = i.Quantity;
             Id = i.Id;
 
-            AddCommand = new Command(DoAdd);
-        }
-
-        private void DoAdd()
-        {
-            ShoppingCartService.Current.AddOrUpdate(this);
         }
     }
 }

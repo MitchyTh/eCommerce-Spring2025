@@ -5,7 +5,7 @@
              Title="CheckoutView">
     <VerticalStackLayout>
         <ListView
-           ItemsSource="{Binding ShoppingCart}"
+           ItemsSource="{Binding ReceiptData.Items}"
            >
         <ListView.ItemTemplate>
             <DataTemplate>
@@ -18,7 +18,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="{Binding Id}"/>
+                            <Label Grid.Column="0" Text="Test"/>
                             <Label Grid.Column="1" Text="{Binding Product.Name}"/>
                             <Label Grid.Column="2" Text="x"/>
                             <Label Grid.Column="3" Text="{Binding Quantity}"/>
@@ -28,6 +28,6 @@
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
-        <Label Text="{Binding FinalBill, StringFormat='Total: {0:C}'}"/>
+        <Label Text="{Binding ReceiptData.Total, StringFormat='Total: {0:C}'}"/>
     </VerticalStackLayout>
 </ContentPage>
