@@ -6,7 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Library.eCommerce.DTO;
 using Library.eCommerce.Models;
+using Library.eCommerce.Util;
+using Newtonsoft.Json;
 
 namespace Library.eCommerce.Services
 {
@@ -14,25 +17,14 @@ namespace Library.eCommerce.Services
     {
         private ProductServiceProxy()
         {
-            Products = new List<Item?>
-            {
-                new Item{Product = new Product{Id = 1, Name="Product 1", Price=10}, Id=1, Quantity = 1 },
-                new Item{Product = new Product{Id = 2, Name="Product 2", Price=30}, Id=2, Quantity = 2 },
-                new Item{Product = new Product{Id = 3, Name="Product 3", Price=50}, Id=3, Quantity = 3 },
-            };
-        }
-
-        private int LastKey
-        {
-            get
-            {
-                if (!Products.Any())
-                {
-                    return 0;
-                }
-
-                return Products.Select(p => p?.Id ?? 0).Max();
-            }
+            var productPayload = new WebRequestHandler().Get("/Inventory").Result;
+            Products = JsonConvert.DeserializeObject<List<Item>>(productPayload) ??  new List<Item?>();
+            //Products = new List<Item?>
+            //{
+            //    new Item{Product = new ProductDTO{Id = 1, Name="Product 1", Price=10}, Id=1, Quantity = 1 },
+            //    new Item{Product = new ProductDTO{Id = 2, Name="Product 2", Price=30}, Id=2, Quantity = 2 },
+            //    new Item{Product = new ProductDTO{Id = 3, Name="Product 3", Price=50}, Id=3, Quantity = 3 },
+            //};
         }
 
         private static ProductServiceProxy? instance;
@@ -55,26 +47,37 @@ namespace Library.eCommerce.Services
 
         public List<Item?> Products { get; private set; }
 
-
-        public Item AddorUpdate(Item item)
+        public async Task<IEnumerable<Item?>> Search(string? query)
         {
-            if(item == null)
+            if (query == null)
             {
-                return null;
+                return new List<Item>();
             }
-
+            var response = await new WebRequestHandler().Post("/Inventory/Search", new QueryRequest { Query = query });
+            Products = JsonConvert.DeserializeObject<List<Item?>>(response) ?? new List<Item?>();
+            return Products;
+        }
+        public Item AddOrUpdate(Item item)
+        {
+            //CALL THE WEB SERVICE
+            var response = new WebRequestHandler().Post("/Inventory", item).Result;
+            var newItem = JsonConvert.DeserializeObject<Item>(response);
+            if (newItem == null)
+            {
+                return item;
+            }
             if (item.Id == 0)
             {
-                item.Id = LastKey + 1;
-                item.Product.Id = item.Id;
-                Products.Add(item);
-            } else
+                Products.Add(newItem);
+            }
+            else
             {
                 var existingItem = Products.FirstOrDefault(p => p.Id == item.Id);
                 var index = Products.IndexOf(existingItem);
                 Products.RemoveAt(index);
-                Products.Insert(index, new Item(item));
+                Products.Insert(index, new Item(newItem));
             }
+
 
             return item;
         }
@@ -85,11 +88,12 @@ namespace Library.eCommerce.Services
             {
                 return null;
             }
+            var result = new WebRequestHandler().Delete($"/Inventory/Delete/{Id}").Result;
 
             Item? product = Products.FirstOrDefault(p => p.Id == Id);
             Products.Remove(product);
 
-            return product;
+            return JsonConvert.DeserializeObject<Item>(result);
         }
 
 

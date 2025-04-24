@@ -63,12 +63,12 @@ namespace Maui.eCommerce.ViewModels
 
         public void AddOrUpdate()
         {
-            ProductServiceProxy.Current.AddorUpdate(Model);
+            ProductServiceProxy.Current.AddOrUpdate(Model);
         }
 
         public void Undo()
         {
-            ProductServiceProxy.Current.AddorUpdate(cachedModel);
+            ProductServiceProxy.Current.AddOrUpdate(cachedModel);
         }
         public ProductViewModel()
         {
@@ -87,7 +87,7 @@ namespace Maui.eCommerce.ViewModels
 
         public void UpdateCart()
         {
-            var cartItem = _cartSvc.cartItems.FirstOrDefault(p => p.Id == Model?.Id);
+            var cartItem = _cartSvc.Items.FirstOrDefault(p => p.Id == Model?.Id);
             if (cartItem != null)
             {
                 cartItem.Product.Name = Model.Product.Name;

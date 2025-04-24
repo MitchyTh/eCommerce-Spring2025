@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Library.eCommerce.Models;
+using Library.eCommerce.Util;
+using Newtonsoft.Json;
 
 namespace Library.eCommerce.Services
 {
     public class ShoppingCartService
     {
-        private ProductServiceProxy _prodSvc = ProductServiceProxy.Current;
-        private List<Item> items;
-        public List<Item> cartItems
+        private ShoppingCartService()
         {
-            get
-            {
-                return items;
-            }
+            var cartPayload = new WebRequestHandler().Get("/Cart").Result;
+            Items = JsonConvert.DeserializeObject<List<Item?>>(cartPayload) ?? new List<Item?>();
         }
+        private ProductServiceProxy _prodSvc = ProductServiceProxy.Current;
+        public List<Item> Items;
+
         public static ShoppingCartService Current {
             get
             {
@@ -30,12 +32,17 @@ namespace Library.eCommerce.Services
             }
         }
         private static ShoppingCartService? instance;
-        private ShoppingCartService() {
-            items = new List<Item>();
-        }
 
         public Item? AddOrUpdate(Item item)
         {
+            //CALL THE WEB SERVICE
+            var response = new WebRequestHandler().Post("/Cart/add", item).Result;
+            var newItem = JsonConvert.DeserializeObject<Item>(response);
+            if (newItem == null)
+            {
+                return item;
+            }
+
             var existingInvItem = _prodSvc.GetById(item.Id);
             if (existingInvItem == null || existingInvItem.Quantity == 0)
             {
@@ -46,36 +53,44 @@ namespace Library.eCommerce.Services
                 existingInvItem.Quantity--;
             }
 
-            var existingItem = cartItems.FirstOrDefault(i => i.Id == item.Id);
-            if (existingItem == null)
+            var existingCartItem = Items.FirstOrDefault(i => i.Id == item.Id);
+            if (existingCartItem == null)
             {
-                var newItem = new Item(item);
+                var newCartItem = new Item(item);
                 newItem.Quantity = 1;
-                cartItems.Add(new Item(newItem));
+                Items.Add(new Item(newItem));
             }
             else
             {
-                existingItem.Quantity++;
+                existingCartItem.Quantity++;
             }
 
             return existingInvItem;
         }
 
-        public Item? ReturnItem(Item? item)
+        public Item? ReturnItem(Item item)
         {
+            //CALL WEB SERVICE
+            var response = new WebRequestHandler().Post("/Cart/return", item).Result;
+            var newItem = JsonConvert.DeserializeObject<Item>(response);
+            if (newItem == null)
+            {
+                return item;
+            }
+
             if (item.Id <= 0 || item == null)
             {
                 return null;
             }
 
-            var itemToReturn = cartItems.FirstOrDefault(c => c.Id == item.Id);
+            var itemToReturn = Items.FirstOrDefault(c => c.Id == item.Id);
             if (itemToReturn != null)
             {
                 itemToReturn.Quantity--;
                 var inventoryItem = _prodSvc.Products.FirstOrDefault(p => p.Id == itemToReturn.Id);
                 if (inventoryItem == null)
                 {
-                    _prodSvc.AddorUpdate(new Item(itemToReturn));
+                    _prodSvc.AddOrUpdate(new Item(itemToReturn));
                 }
                 else
                 {
@@ -87,14 +102,17 @@ namespace Library.eCommerce.Services
             return itemToReturn;
         }
 
-        public decimal? GetFinalBill()
-        {
-            decimal? finalBill = 0;
-            foreach (var item in cartItems)
-            {
-                finalBill += item.TotalPrice;
-            }
-            return finalBill;
-        }
+        //public Receipt? GetFinalBill()
+        //{
+        //    var response = new WebRequestHandler().Post("/Receipt/purchase", null).Result;
+        //    return JsonConvert.DeserializeObject<Receipt>(response);
+        //    //decimal? finalBill = 0;
+        //    //foreach (var item in Items)
+        //    //{
+        //    //    finalBill += item.TotalPrice;
+        //    //}
+        //    //return finalBill;
+
+       
     }
 }
