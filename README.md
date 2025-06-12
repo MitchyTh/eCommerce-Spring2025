@@ -25,11 +25,6 @@ This is a full-stack e-commerce site prototype built with .NET and C#. The appli
 5. Run the backend server project to start the API  
 6. Open the frontend project (if separate) and run it to interact with the backend  
 
-## Limitations
-- Currently not fully operational as a production-ready application  
-- File-based persistence is simplistic and not intended for large-scale use  
-- Authentication and payment processing are not implemented yet  
-
 ## Future Work
 - Integrate database support (e.g., SQL Server, PostgreSQL)  
 - Add user authentication and authorization  
@@ -40,5 +35,3 @@ This is a full-stack e-commerce site prototype built with .NET and C#. The appli
 ## Contributing
 This project is currently a personal prototype. Contributions are welcome as suggestions or forks for experimentation.
 
-## License
-This project is licensed under the MIT License — see the LICENSE file for details.
